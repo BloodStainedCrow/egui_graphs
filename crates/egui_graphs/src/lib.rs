@@ -32,6 +32,7 @@ pub use layouts::hierarchical::{
     State as LayoutStateHierarchical,
 };
 pub use layouts::random::{Random as LayoutRandom, State as LayoutStateRandom};
+pub use layouts::tree::{Tree as LayoutTree, State as LayoutStateTree};
 pub use layouts::{Layout, LayoutState};
 pub use metadata::{reset_metadata, MetadataFrame};
 pub use settings::{SettingsInteraction, SettingsNavigation, SettingsStyle};
