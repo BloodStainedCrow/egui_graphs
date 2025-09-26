@@ -53,7 +53,7 @@ impl Layout<State> for Tree {
                     let level_count = match level_counts.get_mut(level) {
                         Some(count) => count,
                         None => {
-                            debug_assert_eq!(level_counts.len(), level - 1);
+                            debug_assert_eq!(level_counts.len(), level);
                             level_counts.push(0);
                             level_counts.last_mut().unwrap()
                         },
