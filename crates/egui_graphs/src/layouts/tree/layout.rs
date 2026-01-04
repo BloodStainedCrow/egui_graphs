@@ -24,7 +24,7 @@ pub struct Tree {
 }
 
 impl Layout<State> for Tree {
-    fn next<N, E, Ty, Ix, Dn, De>(&mut self, g: &mut Graph<N, E, Ty, Ix, Dn, De>)
+    fn next<N, E, Ty, Ix, Dn, De>(&mut self, g: &mut Graph<N, E, Ty, Ix, Dn, De>, _: &egui::Ui)
     where
         N: Clone,
         E: Clone,
@@ -37,7 +37,7 @@ impl Layout<State> for Tree {
             return;
         }
 
-        let toporesult = petgraph::algo::toposort(&g.g, None);
+        let toporesult = petgraph::algo::toposort(&g.g(), None);
 
         match toporesult {
             Ok(topo_sort) => {
@@ -46,7 +46,7 @@ impl Layout<State> for Tree {
                 let mut level_counts: Vec<usize> = vec![];
 
                 for node in topo_sort {
-                    let level = g.g.neighbors_directed(node, Incoming).map(|pred| levels[pred.index()]).max().map(|pred_level| pred_level + 1).unwrap_or(0);
+                    let level = g.g().neighbors_directed(node, Incoming).map(|pred| levels[pred.index()]).max().map(|pred_level| pred_level + 1).unwrap_or(0);
 
                     levels[node.index()] = level;
 
@@ -61,8 +61,8 @@ impl Layout<State> for Tree {
 
                     *level_count += 1;
 
-                    let node = &mut g.g[node];
-                    node.set_layout_location(Pos2::new((*level_count * NODE_DIST) as f32, (level * ROW_DIST) as f32));
+                    let node = &mut g.g_mut()[node];
+                    node.set_location(Pos2::new((*level_count * NODE_DIST) as f32, (level * ROW_DIST) as f32));
                 }
             },
             Err(e) => {
